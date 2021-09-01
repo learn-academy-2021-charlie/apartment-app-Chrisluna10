@@ -14,6 +14,6 @@ describe("When the header shows", ()=>{
 it('displays a header',()=>{
     const apartment = header.find('div')
     //assert
-    expect(apartment.length).toEqual(3)
+    expect(apartment.length).toEqual(2)
     })
 })
