@@ -1,4 +1,5 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom'
 
 class Header extends React.Component{ 
   render(){ 
@@ -15,15 +16,15 @@ class Header extends React.Component{
         <a className="active" href="/">Home</a>
         <a href="/apartmentsindex">Apartments</a>
         <a href="#contact">Contact</a>
-        <a href="#about">About</a>
-        { this.props.authentication.logged_in  &&
+       { logged_in && <NavLink to="/apartmentsnew">Add Apartment</NavLink> }
+        { logged_in  &&
             <div>
-              <a href={this.props.authentication.sign_out_route }>Sign Out</a>
+              <a href={sign_out_route }>Sign Out</a>
             </div>
           }
-          { !this.props.authentication.logged_in &&
+          { !logged_in &&
             <div>
-              <a href={ this.props.authentication.sign_in_route }>Sign In</a>
+              <a href={ sign_in_route }>Sign In</a>
             </div>
           }
       </div>
