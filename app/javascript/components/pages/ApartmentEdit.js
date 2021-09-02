@@ -1,20 +1,13 @@
 import React, { Component } from 'react'
-import {NavLink} from 'react-router-dom'
-import {
-    Form,
-    FormGroup,
-    Input,
-    Label,
-    Button
-  } from 'reactstrap'
+import { Redirect } from 'react-router-dom'
+import {Form,FormGroup,Input,Label, Button} from 'reactstrap'
 
-class ApartmentsNew extends Component {
-
+class ApartmentEdit extends Component {
     
     constructor(props){
         super(props)
         this.state = {
-            form:{
+            form: {
                 street: "",
                 city: "",
                 state: "",
@@ -24,27 +17,24 @@ class ApartmentsNew extends Component {
                 bedrooms: "",
                 bathrooms: "",
                 pets: ""
-            }
+            },
+                submitted: false
         }
     }
-    
 
-    handleChange = (e) => {
-        let { form } = this.state
+    handleChange =(e) => {
+        let {form} = this.state
         form[e.target.name] = e.target.value
-        this.setState ({ form: form })
+        this.setState({ form: form})
     }
-
     handleSubmit = () => {
-       this.props.createNewApartment(this.state.form)
+        this.props.updateApartment(this.state.form, this.props.apartment.id)
+        this.setState({ submitted: true})
     }
-
-  render() {
-
-    
-      
-    return (
-        <Form>
+    render() {
+        let {apartment} = this.props
+        return (
+            <Form>
             <FormGroup>
                 <Label>Street</Label>
                     <Input
@@ -131,12 +121,12 @@ class ApartmentsNew extends Component {
             color="secondary"
             onClick={ this.handleSubmit }
             >
-            Add new Apartment
+            Submit Edit
         </Button>
+        {this.state.submitted && <Redirect to={`/apartmentsshow/${apartment.id}`} /> }
     </Form>
       
-  )
-  
+        )
+      }
 }
-}
-export default ApartmentsNew
+export default ApartmentEdit
