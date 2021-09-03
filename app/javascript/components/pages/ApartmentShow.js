@@ -20,7 +20,9 @@ class ApartmentsShow extends Component {
             <CardText>
 
             </CardText>
-            <Button>Add to favorites</Button>
+            <NavLink to={`/apartmentsedit/${apartment.id}`}>
+            <Button>Edit Apartment</Button>
+            </NavLink>
           </CardBody>
         </Card>
       }

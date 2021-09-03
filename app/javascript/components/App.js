@@ -11,6 +11,7 @@ import Footer from "./components/Footer"
 import ApartmentIndex from "./pages/ApartmentIndex"
 import ApartmentShow from "./pages/ApartmentShow"
 import ApartmentNew from "./pages/ApartmentNew"
+import ApartmentEdit from "./pages/ApartmentEdit"
 
 
 class App extends React.Component {
@@ -52,6 +53,19 @@ class App extends React.Component {
     .catch(errors => console.log("apartment create errors:", errors))
    }
 
+   updateApartment = (editapartment, id) => {
+    fetch(`/apartments/${id}`, {
+      body: JSON.stringify(editapartment),
+      headers: {
+        "Content-Type": "application/json"
+      },
+      method: "PATCH"
+    })
+    .then(response => response.json())
+    .then(payload => this.apartmentIndex())
+    .catch(errors => console.log("Apartment update errors:", errors))
+  }
+
   render () {
 
     const {
@@ -76,7 +90,12 @@ class App extends React.Component {
             let apartment = this.state.apartments.find(apartment => apartment.id === +id)
             return <ApartmentShow apartment={ apartment } />
           }} />
-          <Route path="/apartmentsnew" render={ (props)  => <ApartmentNew createNewApartment={ this.createNewApartment } /> } />  
+        <Route path="/apartmentsnew" render={ (props)  => <ApartmentNew createNewApartment={ this.createNewApartment } /> } />  
+        <Route path={"/apartmentsedit/:id"} render={ (props) => {
+            let id = props.match.params.id
+            let apartment = this.state.apartments.find(apartment => apartment.id === +id)
+            return <ApartmentEdit updateApartment={ this.updateApartment } apartment={ apartment } />
+          }} /> 
       </Switch>
 
       <Footer />
