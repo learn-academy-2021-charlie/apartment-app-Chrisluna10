@@ -1,9 +1,8 @@
 class ApartmentsController < ApplicationController
-    def index 
+    def index
         apartments = Apartment.all
         render json: apartments
     end
-
 
     def create
         apartment = current_user.apartments.create(apartment_params)
@@ -11,14 +10,27 @@ class ApartmentsController < ApplicationController
             render json: apartment
         else
         render json: apartment.errors, status: 422
-
         end
     end
 
     def update
+        if user_signed_in?
+            apartment = Apartment.find(params[:id])
+            apartment.update(apartment_params)
+            render json: apartment
+        else 
+            render json: {}, status:401
+        end
+    end
+
+    def destroy
+        if user_signed_in?
         apartment = Apartment.find(params[:id])
-        apartment.update(apartment_params)
+        apartment.destroy
         render json: apartment
+        else 
+            render json: {}, status:401
+        end
     end
 
     private

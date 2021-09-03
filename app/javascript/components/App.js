@@ -66,6 +66,18 @@ class App extends React.Component {
     .catch(errors => console.log("Apartment update errors:", errors))
   }
 
+  deleteApartment = (id) => {
+    fetch(`http://localhost:3000/apartments/${id}`, {
+      headers: {
+        "Content-Type": "application/json"
+      },
+      method: "DELETE"
+    })
+    .then(response => response.json())
+    .then(payload => this.apartmentIndex())
+    .catch(errors => console.log("apartment delete fetch errors:", errors))
+  }
+
   render () {
 
     const {
@@ -80,15 +92,14 @@ class App extends React.Component {
     return (
       <Router>
       <Header {...this.props}/>
-      
-
+    
       <Switch>
         <Route exact path="/" component={Home} />
         <Route path="/apartmentsindex" render={ (props) => <ApartmentIndex apartments={ this.state.apartments } /> } /> 
         <Route path="/apartmentsshow/:id" render={ (props) => {
             let id = props.match.params.id
             let apartment = this.state.apartments.find(apartment => apartment.id === +id)
-            return <ApartmentShow apartment={ apartment } />
+            return <ApartmentShow apartment={ apartment } deleteApartment={ this.deleteApartment } />
           }} />
         <Route path="/apartmentsnew" render={ (props)  => <ApartmentNew createNewApartment={ this.createNewApartment } /> } />  
         <Route path={"/apartmentsedit/:id"} render={ (props) => {
