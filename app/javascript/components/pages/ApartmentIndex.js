@@ -4,6 +4,13 @@ import { Card, Button, CardTitle, Row, Col, CardText, CardImg } from 'reactstrap
 
 class ApartmentIndex extends Component {
   render() {
+    const {
+        logged_in,
+        current_user,
+        new_user_route,
+        sign_in_route,
+        sign_out_route,
+      } = this.props
     let { apartments } = this.props
     return (
       <div className="page-body">
@@ -16,9 +23,11 @@ class ApartmentIndex extends Component {
                 <Col sm="6">
                   <Card>
                       <CardImg />
-                    <CardTitle> {apartment.street} </CardTitle>
+                    <CardTitle> Apartment Number: {apartment.id} </CardTitle>
                         <CardText>Click info for more information about this listing</CardText>
-                        <NavLink to={`/apartmentsshow/${apartment.id}`}>Info</NavLink>
+                       <NavLink to={`/apartmentsshow/${apartment.id}`}>Info</NavLink> 
+   
+                    
                   </Card>
                 </Col>
               </Row>
